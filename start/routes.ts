@@ -18,12 +18,18 @@
 |
 */
 
-import Route from '@ioc:Adonis/Core/Route'
+import Route, { ResourceRouteNames } from '@ioc:Adonis/Core/Route'
 
 Route.get('/', async ({ inertia }) => {
-  return await inertia.render('app', { name: 'John Doe' })
+  //return await inertia.render('app', )
+  return { name: 'John Doe' }
 })
 
-Route.get('/test', async ({ inertia }) => {
-  return await inertia.render('app', { name: 'Test' })
+const prefix = 'api'
+const routes = ['index', 'store', 'show', 'update', 'destroy'] as ResourceRouteNames[]
+
+Route.group(() => {
+  Route.resource('enterprise', 'EntreprisesController').only(routes)
 })
+  .prefix(prefix)
+  .where('id', /^[0-9]+$/) // id must be a number
