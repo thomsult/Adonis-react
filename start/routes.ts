@@ -30,6 +30,8 @@ const routes = ['index', 'store', 'show', 'update', 'destroy'] as ResourceRouteN
 
 Route.group(() => {
   Route.resource('enterprise', 'EntreprisesController').only(routes)
+  Route.resource('service', 'ServicesController').only(routes)
+  Route.resource('personne', 'PersonnesController').only(routes)
 })
   .prefix(prefix)
   .where('id', /^[0-9]+$/) // id must be a number
