@@ -11,8 +11,10 @@ export default class Personne extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @column()
+  @column({ serializeAs: null })
   public entrepriseId: number
-  @column()
+  @column({ serializeAs: null })
   public serviceId: number
+  @column({ serializeAs: null })
+  public role: Role
 }

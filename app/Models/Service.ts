@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, Has, HasMany, HasOne, column, hasMany, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import Personne from './Personne'
 
 export default class Service extends BaseModel {
   @column({ isPrimary: true })
@@ -11,9 +12,29 @@ export default class Service extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @column()
+  @column({
+    serializeAs: null,
+  })
   public entrepriseId: number
 
-  @column()
+  @column({
+    serializeAs: null,
+  })
   public serviceId: number
+
+  @column()
+  @hasOne(() => Personne, {
+    onQuery: (query) => {
+      return query.where('role', 'Chef de Service')
+    },
+  })
+  public chefService: HasOne<typeof Personne>
+
+  @column()
+  @hasMany(() => Personne, {
+    onQuery: (query) => {
+      return query.where('role', 'Employé')
+    },
+  })
+  public personByService: HasMany<typeof Personne>
 }
